@@ -1,5 +1,8 @@
 module GalleryCustomFilters
 
+import GalleryCustomFilters.Comparators.ScreenshotInfoDateAscComparator
+import GalleryCustomFilters.Comparators.ScreenshotInfoDateDesComparator
+
 public enum GalleryCustomFilterSortOrder {
   Ascending = 1,
   Descending = 2,
@@ -38,15 +41,27 @@ public abstract class GalleryCustomFilter {
   }
 
   /* This method must be overridden to setup the icon and tooltip for m_controller.
-     The SetupController method is an helper to quickly setup it up given a locKey and iconName.
+     The SetupController method is an helper to quickly set it up given a locKey and iconName.
   */
   public abstract func Setup(tooltipsManager: wref<gameuiTooltipsManager>);
+
   /* Override this method to change the sorting behaviour of the filter.
      The screenshots argument holds a reference to the array that needs to be sorted.
      A Quicksort implementation is found in the QuicksortScreenshot.reds file.
      As well as some default Comparators in the GalleryComparators.reds file.
   */
-  public func SortScreenshots(screenshots: script_ref<array<GameScreenshotInfo>>) {}
+  public func SortScreenshots(screenshots: script_ref<array<GameScreenshotInfo>>) {
+    // Default behaviour is to sort by date.
+    // This can also be copy-pasted to quickly develop an alternative implementation.
+    let sortOrder = this.GetSortOrder();
+    if Equals(sortOrder, GalleryCustomFilterSortOrder.Ascending) {
+      let nameComparator = new ScreenshotInfoDateAscComparator();
+      this.SortScreenshots(screenshots, nameComparator);
+    } else {
+      let nameComparator = new ScreenshotInfoDateDesComparator();
+      this.SortScreenshots(screenshots, nameComparator);
+    }
+  }
 
   /* If this function returns true, the given screenshot will be shown in the menu.
      isFavourite is true if the screenshot was not filtered out by the vanilla filtering behaviour.
