@@ -18,6 +18,7 @@ This mod can also be used by other mods to implement more custom filters.
 ## Requirements
 
 - [redscript 0.5.27+](https://github.com/jac3km4/redscript)
+- [Mod Settings 0.2.8+](https://github.com/jackhumbert/mod_settings) (optional, adds in-game config for built-in filters)
 
 ## API for Modders
 
