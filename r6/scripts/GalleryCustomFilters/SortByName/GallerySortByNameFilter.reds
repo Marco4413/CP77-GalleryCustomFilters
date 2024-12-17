@@ -2,6 +2,7 @@ module GalleryCustomFilters.SortByName
 
 import GalleryCustomFilters.*
 import GalleryCustomFilters.Comparators.*
+import GalleryCustomFilters.Config.GalleryDefaultFiltersConfig
 
 public class GallerySortByNameFilter extends GalleryCustomFilter {
   public static func Create() -> ref<GallerySortByNameFilter> {
@@ -35,5 +36,9 @@ public class GallerySortByNameFilter extends GalleryCustomFilter {
 @wrapMethod(GalleryMenuGameController)
 private func GCF_GetCustomFilters(customFilters: script_ref<array<ref<GalleryCustomFilter>>>) {
   wrappedMethod(customFilters);
-  ArrayPush(Deref(customFilters), GallerySortByNameFilter.Create());
+
+  let config = GalleryDefaultFiltersConfig.GetInstance();
+  if config.SortByNameEnabled {
+    ArrayPush(Deref(customFilters), GallerySortByNameFilter.Create(config));
+  }
 }
