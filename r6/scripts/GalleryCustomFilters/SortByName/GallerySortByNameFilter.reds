@@ -3,10 +3,16 @@ module GalleryCustomFilters.SortByName
 import GalleryCustomFilters.*
 import GalleryCustomFilters.Comparators.*
 import GalleryCustomFilters.Config.GalleryDefaultFiltersConfig
+import GalleryCustomFilters.Utils.GetFilename
 
+// See GalleryCustomFilter for what methods are actually required
 public class GallerySortByNameFilter extends GalleryCustomFilter {
-  public static func Create() -> ref<GallerySortByNameFilter> {
-    return new GallerySortByNameFilter();
+  private let m_config: ref<GalleryDefaultFiltersConfig>;
+
+  public static func Create(config: ref<GalleryDefaultFiltersConfig>) -> ref<GallerySortByNameFilter> {
+    let filter = new GallerySortByNameFilter();
+    filter.m_config = config;
+    return filter;
   }
 
   public func Setup(tooltipsManager: wref<gameuiTooltipsManager>) {
@@ -27,9 +33,13 @@ public class GallerySortByNameFilter extends GalleryCustomFilter {
     }
   }
 
-  /* The only thing this filter does is sorting */
   public func FilterScreenshot(screenshot: GameScreenshotInfo, isFavourite: Bool) -> Bool {
-    return super.FilterScreenshot(screenshot, isFavourite);
+    if isFavourite && this.m_config.SortByNameShowOnlyCustomImages {
+      let filename = GetFilename(screenshot.path);
+      return !StrBeginsWith(filename, "photomode_");
+    }
+
+    return isFavourite;
   }
 }
 
