@@ -6,7 +6,7 @@ module GalleryCustomFilters
   - https://github.com/Marco4413/GeneratorCanvas/blob/bc8761eaf20bee5964ed3e95b446e433ff8fa728/examples/007-sorting_algorithms/sorting.js#L211
   - https://github.com/Marco4413/GeneratorCanvas/blob/bc8761eaf20bee5964ed3e95b446e433ff8fa728/examples/007-sorting_algorithms/sorting.js#L166
 */
-public final class QuicksortScreenshot extends IScriptable {
+public final class QuicksortScreenshot {
   public static func Sort(items: script_ref<array<GameScreenshotInfo>>, comparator: ref<ScreenshotInfoComparator>, leftIndex: Int32, rightIndex: Int32) -> Void {
     if rightIndex-leftIndex <= 1 {
       return;
@@ -43,7 +43,7 @@ public final class QuicksortScreenshot extends IScriptable {
   }
 }
 
-public abstract class ScreenshotInfoComparator extends IScriptable {
+public abstract class ScreenshotInfoComparator {
   public func Compare(const left: script_ref<GameScreenshotInfo>, const right: script_ref<GameScreenshotInfo>) -> Int32 {
     return 0; /* Return -1 if left < right, 1 if left > right, 0 if left = right */
   }
