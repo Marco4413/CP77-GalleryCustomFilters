@@ -55,10 +55,10 @@ public abstract class GalleryCustomFilter {
     // This can also be copy-pasted to quickly develop an alternative implementation.
     let sortOrder = this.GetSortOrder();
     if Equals(sortOrder, GalleryCustomFilterSortOrder.Ascending) {
-      let nameComparator = new ScreenshotInfoDateAscComparator();
+      let nameComparator = ScreenshotInfoDateAscComparator.Create();
       this.SortScreenshots(screenshots, nameComparator);
     } else {
-      let nameComparator = new ScreenshotInfoDateDesComparator();
+      let nameComparator = ScreenshotInfoDateDesComparator.Create();
       this.SortScreenshots(screenshots, nameComparator);
     }
   }
@@ -77,6 +77,6 @@ private func GCF_GetCustomFilters(customFilters: script_ref<array<ref<GalleryCus
   This method must be wrapped to provide new custom filters.
   A call to `wrappedMethod(customFilters)` must be performed.
   Custom filters must be added to customFilters:
-    `ArrayPush(Deref(customFilters), new MyCustomFilter())`
+    `ArrayPush(Deref(customFilters), MyCustomFilter.Create())`
   */
 }
