@@ -10,8 +10,9 @@ This Cyberpunk 2077 mod adds custom filters to the smart frame screenshot select
 > This mod allows other mods to add custom filter rules to better handle screenshots.
 
 A filter for screenshot names comes bundled with the mod.
-It's useful to filter photo-mode screenshots from custom ones,
-unless you name your custom screenshots with the `photomode_` prefix.
+By default it only sorts screenshots by name. However, with Mod Settings
+installed, it's possible to configure it to filter out images that have
+the `photomode_` prefix.
 
 This mod can also be used by other mods to implement more custom filters.
 
