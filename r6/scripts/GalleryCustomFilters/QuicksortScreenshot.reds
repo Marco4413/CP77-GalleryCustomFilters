@@ -1,5 +1,14 @@
 module GalleryCustomFilters
 
+private struct QuicksortCallFrame {
+  public let LeftIndex: Int32;
+  public let RightIndex: Int32;
+
+  public static func Create(leftIndex: Int32, rightIndex: Int32) -> QuicksortCallFrame {
+    return new QuicksortCallFrame(leftIndex, rightIndex);
+  }
+}
+
 /*
   Overall code structure taken from https://codeberg.org/adamsmasher/cyberpunk/src/branch/master/cyberpunk/UI/data/quicksort.swift
   Quicksort algorithm taken from
@@ -8,13 +17,19 @@ module GalleryCustomFilters
 */
 public final class QuicksortScreenshot {
   public static func Sort(items: script_ref<array<GameScreenshotInfo>>, comparator: ref<ScreenshotInfoComparator>, leftIndex: Int32, rightIndex: Int32) -> Void {
-    if rightIndex-leftIndex <= 1 {
-      return;
-    }
+    // I don't know how big the stack used by redscript is.
+    // However, a crash with many screenshots was reported, this MAY solve the issue.
+    let quicksortCallStack: array<QuicksortCallFrame>;
+    ArrayPush(quicksortCallStack, QuicksortCallFrame.Create(leftIndex, rightIndex));
 
-    let r = QuicksortScreenshot.Partition(items, comparator, leftIndex, rightIndex);
-    QuicksortScreenshot.Sort(items, comparator, leftIndex, r);
-    QuicksortScreenshot.Sort(items, comparator, r+1, rightIndex);
+    while ArraySize(quicksortCallStack) > 0 {
+      let params = ArrayPop(quicksortCallStack);
+      if params.RightIndex-params.LeftIndex > 1 {
+        let r = QuicksortScreenshot.Partition(items, comparator, params.LeftIndex, params.RightIndex);
+        ArrayPush(quicksortCallStack, QuicksortCallFrame.Create(params.LeftIndex, r));
+        ArrayPush(quicksortCallStack, QuicksortCallFrame.Create(r+1, params.RightIndex));
+      }
+    }
   }
 
   private static func Partition(items: script_ref<array<GameScreenshotInfo>>, comparator: ref<ScreenshotInfoComparator>, leftIndex: Int32, rightIndex: Int32) -> Int32 {
