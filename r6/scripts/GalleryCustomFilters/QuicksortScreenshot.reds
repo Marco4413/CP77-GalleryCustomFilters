@@ -37,7 +37,8 @@ public final class QuicksortScreenshot {
 
     let i: Int32 = leftIndex;
     let j: Int32 = rightIndex-1;
-    let pivot: GameScreenshotInfo = Deref(items)[leftIndex];
+    // Pick the item in the middle of the array as the pivot
+    let pivot: GameScreenshotInfo = Deref(items)[(leftIndex+rightIndex)/2];
 
     while i < j {
       while comparator.Compare(Deref(items)[i], pivot) < 0 {
