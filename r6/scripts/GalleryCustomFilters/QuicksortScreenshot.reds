@@ -5,7 +5,7 @@ private struct QuicksortCallFrame {
   public let RightIndex: Int32;
 
   public static func Create(leftIndex: Int32, rightIndex: Int32) -> QuicksortCallFrame {
-    return new QuicksortCallFrame(leftIndex, rightIndex);
+    return QuicksortCallFrame(leftIndex, rightIndex);
   }
 }
 

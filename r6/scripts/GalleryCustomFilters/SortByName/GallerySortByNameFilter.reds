@@ -34,12 +34,18 @@ public class GallerySortByNameFilter extends GalleryCustomFilter {
   }
 
   public func FilterScreenshot(screenshot: GameScreenshotInfo, isFavourite: Bool) -> Bool {
-    if isFavourite && this.m_config.SortByNameShowOnlyCustomImages {
-      let filename = GetFilename(screenshot.path);
-      return !StrBeginsWith(filename, "photomode_");
+    if !isFavourite {
+      return false;
+    }
+    
+    let filename = GetFilename(screenshot.path);
+    if this.m_config.SortByNameShowOnlyCustomImages {
+      if StrBeginsWith(filename, "photomode_") {
+        return false;
+      }
     }
 
-    return isFavourite;
+    return true;
   }
 }
 

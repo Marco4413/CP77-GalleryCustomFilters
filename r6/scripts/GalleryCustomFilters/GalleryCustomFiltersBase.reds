@@ -9,9 +9,9 @@ public enum GalleryCustomFilterSortOrder {
 }
 
 public abstract class GalleryCustomFilter {
-  private let m_controller: ref<GalleryFilterController>;
+  private let m_controller: wref<GalleryFilterController>;
 
-  public final func SetController(controller: ref<GalleryFilterController>) {
+  public final func SetController(controller: wref<GalleryFilterController>) {
     this.m_controller = controller;
   }
 
@@ -28,7 +28,7 @@ public abstract class GalleryCustomFilter {
     }
   }
 
-  private func SetupController(locKey: CName, iconName: String, tooltipsManager: wref<gameuiTooltipsManager>) {
+  protected func SetupController(locKey: CName, iconName: String, tooltipsManager: wref<gameuiTooltipsManager>) {
     let filterType = inkGameScreenshotSortMode.DateAscending;
     this.m_controller.Setup(filterType, n"", locKey, tooltipsManager);
 
@@ -36,14 +36,14 @@ public abstract class GalleryCustomFilter {
     InkImageUtils.RequestSetImage(this.m_controller, filterIcon, iconName);
   }
 
-  private func SortScreenshots(screenshots: script_ref<array<GameScreenshotInfo>>, comparator: ref<ScreenshotInfoComparator>) {
+  protected func SortScreenshots(screenshots: script_ref<array<GameScreenshotInfo>>, comparator: ref<ScreenshotInfoComparator>) {
     QuicksortScreenshot.Sort(screenshots, comparator, 0, ArraySize(Deref(screenshots)));
   }
 
   /* This method must be overridden to setup the icon and tooltip for m_controller.
      The SetupController method is an helper to quickly set it up given a locKey and iconName.
   */
-  public abstract func Setup(tooltipsManager: wref<gameuiTooltipsManager>);
+  public func Setup(tooltipsManager: wref<gameuiTooltipsManager>);
 
   /* Override this method to change the sorting behaviour of the filter.
      The screenshots argument holds a reference to the array that needs to be sorted.
