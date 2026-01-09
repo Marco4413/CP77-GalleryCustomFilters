@@ -9,7 +9,16 @@ public enum GalleryCustomFilterSortOrder {
 }
 
 public abstract class GalleryCustomFilter {
+  private let m_galleryController: wref<GalleryMenuGameController>;
   private let m_controller: wref<GalleryFilterController>;
+
+  public final func SetGalleryController(controller: wref<GalleryMenuGameController>) {
+    this.m_galleryController = controller;
+  }
+
+  public final func GetGalleryController() -> wref<GalleryMenuGameController> {
+    return this.m_galleryController;
+  }
 
   public final func SetController(controller: wref<GalleryFilterController>) {
     this.m_controller = controller;
@@ -44,6 +53,25 @@ public abstract class GalleryCustomFilter {
      The SetupController method is an helper to quickly set it up given a locKey and iconName.
   */
   public func Setup(tooltipsManager: wref<gameuiTooltipsManager>);
+
+  /* Called to set the parent of this filter's settings UI.
+     NOTE: If you're having issues with the UI, make sure to
+           create widgets within this method and setting their
+           parent right away. e.g. Codeware's TextInput won't
+           work otherwise.
+  */
+  public func ReparentSettings(newParent: wref<inkCompoundWidget>) {}
+  // Called to enable/disable this filter's settings UI.
+  public func ToggleSettings(on: Bool) {}
+
+  /* Call this method when a filter setting changes to perform a live update of screenshots.
+     e.g. Given a search bar, call this when the query changes.
+  */
+  protected final func NotifyFilterSettingsChanged() {
+    if IsDefined(this.m_galleryController) {
+      this.m_galleryController.GCF_OnCustomFilterSettingsChanged(this);
+    }
+  }
 
   /* Override this method to change the sorting behaviour of the filter.
      The screenshots argument holds a reference to the array that needs to be sorted.

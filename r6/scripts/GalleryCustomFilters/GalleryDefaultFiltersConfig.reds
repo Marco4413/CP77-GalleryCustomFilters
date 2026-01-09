@@ -14,4 +14,10 @@ public class GalleryDefaultFiltersConfig {
   @runtimeProperty("ModSettings.description", "Will only show images that DO NOT start with the 'photomode_' prefix.")
   @runtimeProperty("ModSettings.dependency", "SortByNameEnabled")
   public let SortByNameShowOnlyCustomImages: Bool = false;
+
+  @runtimeProperty("ModSettings.mod", "Gallery Custom Filters")
+  @runtimeProperty("ModSettings.displayName", "Sort By Name - Show Search Input")
+  @runtimeProperty("ModSettings.description", "REQUIRES: Codeware; Adds a search input to filter screenshots by name.")
+  @runtimeProperty("ModSettings.dependency", "SortByNameEnabled")
+  public let SortByNameShowSearchInput: Bool = false;
 }
