@@ -1,5 +1,8 @@
 module GalleryCustomFilters
 
+@if(ModuleExists("Codeware.UI"))
+import Codeware.UI.*
+
 @addField(GalleryMenuGameController)
 private let m_GCFCustomFilters: array<ref<GalleryCustomFilter>>;
 
@@ -103,4 +106,29 @@ private func SortScreenshots() {
     this.GCF_SetActiveCustomFilter(null);
     wrappedMethod();
   }
+}
+
+// Taken from https://github.com/psiberx/cp2077-playground/blob/main/CodexFilter/Overrides/CodexGameController.reds
+@if(ModuleExists("Codeware.UI"))
+@wrapMethod(GalleryMenuGameController)
+protected cb func OnInitialize() -> Bool {
+	wrappedMethod();
+	this.RegisterToGlobalInputCallback(n"OnPostOnRelease", this, n"GCF_Codeware_OnGlobalInput");
+}
+
+@if(ModuleExists("Codeware.UI"))
+@wrapMethod(GalleryMenuGameController)
+protected cb func OnUninitialize() -> Bool {
+	wrappedMethod();
+	this.UnregisterFromGlobalInputCallback(n"OnPostOnRelease", this, n"GCF_Codeware_OnGlobalInput");
+}
+
+@if(ModuleExists("Codeware.UI"))
+@addMethod(GalleryMenuGameController)
+protected cb func GCF_Codeware_OnGlobalInput(event: ref<inkPointerEvent>) -> Void {
+	if event.IsAction(n"mouse_left") {
+		if !IsDefined(event.GetTarget()) || !event.GetTarget().CanSupportFocus() {
+			this.RequestSetFocus(null);
+		}
+	}
 }
