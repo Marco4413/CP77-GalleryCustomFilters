@@ -27,4 +27,4 @@ This mod can also be used by other mods to implement more custom filters.
 
 An example of the API's usage can be found in the [r6/scripts/GalleryCustomFilters/SortByName](r6/scripts/GalleryCustomFilters/SortByName) folder.
 
-Classes that must be used to implement a `CustomFilter` are found within [GalleryCustomFiltersBase.reds](r6/scripts/GalleryCustomFilters/GalleryCustomFiltersBase.reds) along with documentation for their methods.
+Classes that must be used to implement a `CustomFilter` are found within [GalleryCustomFilter.reds](r6/scripts/GalleryCustomFilters/GalleryCustomFilter.reds) along with documentation for their methods.
