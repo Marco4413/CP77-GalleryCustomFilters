@@ -107,11 +107,10 @@ public class GallerySortByNameFilter extends GalleryCustomFilter {
 }
 
 @wrapMethod(GalleryMenuGameController)
-private func GCF_GetCustomFilters(customFilters: script_ref<array<ref<GalleryCustomFilter>>>) {
-  wrappedMethod(customFilters);
-
+protected cb func OnInitialize() -> Bool {
   let config = GalleryDefaultFiltersConfig.GetInstance();
   if config.SortByNameEnabled {
-    ArrayPush(Deref(customFilters), GallerySortByNameFilter.Create(config));
+    this.GCF_RegisterCustomFilter(GallerySortByNameFilter.Create(config));
   }
+  return wrappedMethod();
 }

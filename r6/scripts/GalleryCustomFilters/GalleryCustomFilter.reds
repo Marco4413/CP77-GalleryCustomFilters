@@ -99,12 +99,12 @@ public abstract class GalleryCustomFilter {
   }
 }
 
-@addMethod(GalleryMenuGameController)
-private func GCF_GetCustomFilters(customFilters: script_ref<array<ref<GalleryCustomFilter>>>) {
-  /*
-  This method must be wrapped to provide new custom filters.
-  A call to `wrappedMethod(customFilters)` must be performed.
-  Custom filters must be added to customFilters:
-    `ArrayPush(Deref(customFilters), MyCustomFilter.Create())`
-  */
-}
+// The following snippet of code is an example on how a filter is supposed to be registered:
+/*
+  @wrapMethod(GalleryMenuGameController)
+  protected cb func OnInitialize() -> Bool {
+    this.GCF_RegisterCustomFilter(MyCustomFilter.Create());
+    /* It's important to call the wrappedMethod *AFTER* the filter was registered. */
+    return wrappedMethod();
+  }
+*/

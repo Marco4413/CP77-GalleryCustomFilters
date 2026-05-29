@@ -37,6 +37,11 @@ public func GCF_OnCustomFilterSettingsChanged(customFilter: wref<GalleryCustomFi
   }
 }
 
+@addMethod(GalleryMenuGameController)
+private func GCF_RegisterCustomFilter(customFilter: ref<GalleryCustomFilter>) {
+  ArrayPush(this.m_GCFCustomFilters, customFilter);
+}
+
 @wrapMethod(GalleryMenuGameController)
 private func SetupFilters() {
   let filtersGrid: wref<inkCompoundWidget> = inkWidgetRef.Get(this.m_filtersGrid) as inkCompoundWidget;
@@ -51,10 +56,7 @@ private func SetupFilters() {
   container.Reparent(filtersGrid, -1);
   this.m_GCFSettingsContainer = container;
 
-  let customFilters: array<ref<GalleryCustomFilter>>;
-  this.GCF_GetCustomFilters(customFilters);
-
-  for customFilter in customFilters {
+  for customFilter in this.m_GCFCustomFilters {
     let filterButton = this.SpawnFromLocal(filtersGrid, n"filterButtonItem").GetController() as GalleryFilterController;
     customFilter.SetGalleryController(this);
     customFilter.SetController(filterButton);
@@ -62,7 +64,7 @@ private func SetupFilters() {
 
   wrappedMethod();
 
-  for customFilter in customFilters {
+  for customFilter in this.m_GCFCustomFilters {
     customFilter.Setup(this.m_tooltipsManager);
     let controller = customFilter.GetController();
     controller.RegisterToCallback(n"OnRelease", this, n"OnItemFilterClick");
@@ -73,7 +75,6 @@ private func SetupFilters() {
     ArrayPush(this.m_filterButtons, controller);
   }
 
-  this.m_GCFCustomFilters = customFilters;
   this.m_GCFActiveCustomFilter = null;
 }
 
