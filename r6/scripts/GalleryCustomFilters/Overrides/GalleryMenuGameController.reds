@@ -113,15 +113,17 @@ private func SortScreenshots() {
 @if(ModuleExists("Codeware.UI"))
 @wrapMethod(GalleryMenuGameController)
 protected cb func OnInitialize() -> Bool {
-  wrappedMethod();
+  let result = wrappedMethod();
   this.RegisterToGlobalInputCallback(n"OnPostOnRelease", this, n"GCF_Codeware_OnGlobalInput");
+  return result;
 }
 
 @if(ModuleExists("Codeware.UI"))
 @wrapMethod(GalleryMenuGameController)
 protected cb func OnUninitialize() -> Bool {
-  wrappedMethod();
+  let result = wrappedMethod();
   this.UnregisterFromGlobalInputCallback(n"OnPostOnRelease", this, n"GCF_Codeware_OnGlobalInput");
+  return result;
 }
 
 @if(ModuleExists("Codeware.UI"))
